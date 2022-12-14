@@ -3,11 +3,7 @@ import styles from "./Button.module.css";
 
 class Button extends Component {
   render() {
-    return (
-      <>
-        <button className={styles.button}>{this.props.name}</button>
-      </>
-    );
+    return <button className={styles.button}>{this.props.name}</button>;
   }
 }
 

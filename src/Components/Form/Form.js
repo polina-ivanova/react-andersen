@@ -43,40 +43,37 @@ class Form extends Component {
       },
     ];
     return (
-      <>
-        <div className={styles.form}>
-          <h1 className={styles.title}>Создание анкеты</h1>
-          <div className={styles.information}>
-            <div className={styles.person}>
-              {" "}
-              {inputs.map((input) => {
-                return (
-                  <Input
-                    label={input.label}
-                    placeholder={input.placeholder}
-                    key={input.label}
-                  />
-                );
-              })}
-            </div>
-            <div className={styles.additional}>
-              {textareas.map((textarea) => {
-                return (
-                  <Textarea
-                    label={textarea.label}
-                    placeholder={textarea.placeholder}
-                    key={textarea.label}
-                  />
-                );
-              })}
-            </div>
+      <div className={styles.form}>
+        <h1 className={styles.title}>Создание анкеты</h1>
+        <div className={styles.information}>
+          <div className={styles.person}>
+            {inputs.map((input) => {
+              return (
+                <Input
+                  label={input.label}
+                  placeholder={input.placeholder}
+                  key={input.label}
+                />
+              );
+            })}
           </div>
-          <div className={styles.buttons}>
-            <Button name={"Сохранить"} />
-            <Button name={"Отмена"} />
+          <div className={styles.additional}>
+            {textareas.map((textarea) => {
+              return (
+                <Textarea
+                  label={textarea.label}
+                  placeholder={textarea.placeholder}
+                  key={textarea.label}
+                />
+              );
+            })}
           </div>
         </div>
-      </>
+        <div className={styles.buttons}>
+          <Button name={"Сохранить"} />
+          <Button name={"Отмена"} />
+        </div>
+      </div>
     );
   }
 }
