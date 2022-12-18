@@ -14,6 +14,16 @@
     resize: none;
 }
 
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.counter {
+    font-size: 0.8rem;
+}
+
 @media screen and (max-width: 1024px) {
     .label {
         margin: 1rem 0;
