@@ -9,22 +9,26 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      surname: "",
-      date: "",
-      site: "",
-      phone: "",
-      about: "",
-      stack: "",
-      description: "",
-      usernameError: "",
-      surnameError: "",
-      dateError: "",
-      siteError: "",
-      phoneError: "",
-      aboutError: "",
-      stackError: "",
-      descriptionError: "",
+      form: {
+        username: "",
+        surname: "",
+        date: "",
+        site: "",
+        phone: "",
+        about: "",
+        stack: "",
+        description: "",
+      },
+      formError: {
+        username: "",
+        surname: "",
+        date: "",
+        site: "",
+        phone: "",
+        about: "",
+        stack: "",
+        description: "",
+      },
       modal: false,
     };
 
@@ -41,39 +45,56 @@ class Form extends Component {
     switch (name) {
       case "username":
       case "surname":
-        const nameError = name + "Error";
         if (value && value.trim()[0]?.toUpperCase() !== value.trim()[0]) {
-          this.setState({
-            [nameError]:
-              name === "username"
-                ? "Имя должно начинаться с заглавной буквы"
-                : "Фамилия должна начинаться с заглавной буквы",
-          });
+          this.setState((state) => ({
+            formError: {
+              ...state.formError,
+              [name]:
+                name === "username"
+                  ? "Имя должно начинаться с заглавной буквы"
+                  : "Фамилия должна начинаться с заглавной буквы",
+            },
+          }));
         } else {
-          this.setState({
-            [nameError]: "",
-          });
+          this.setState((state) => ({
+            formError: {
+              ...state.formError,
+              [name]: "",
+            },
+          }));
         }
-        this.setState({
-          [name]: value.trim(),
-        });
+        this.setState((state) => ({
+          form: {
+            ...state.form,
+            [name]: value.trim(),
+          },
+        }));
         break;
       case "date":
         if (value.length > 0) {
-          this.setState({
-            dateError: "",
-          });
+          this.setState((state) => ({
+            formError: {
+              ...state.formError,
+              date: "",
+            },
+          }));
         }
-        this.setState({
-          date: value,
-        });
+        this.setState((state) => ({
+          form: {
+            ...state.form,
+            date: value,
+          },
+        }));
         break;
       case "phone":
         if (/[a-zа-яё]/i.test(value[0])) {
-          return this.setState({
-            phone: "",
-            phoneError: "Номер телефона должен состоять только из цифр",
-          });
+          return this.setState((state) => ({
+            form: { ...state.form, phone: "" },
+            formError: {
+              ...state.formError,
+              phone: "Номер телефона должен состоять только из цифр",
+            },
+          }));
         }
         const phone = value
           .replace(/[^\d]/g, "")
@@ -85,117 +106,84 @@ class Form extends Component {
             .filter((item) => !!item)
             .join("-");
         }
-        this.setState({ phone: formatted, phoneError: "" });
+        this.setState((state) => ({
+          form: { ...state.form, phone: formatted },
+          formError: { ...state.formError, phone: "" },
+        }));
         break;
       case "site":
         const http = "https://";
         if (http.length >= value.length && !http.startsWith(value)) {
-          return this.setState({
-            siteError: "Адрес сайта должен начинаться с https://",
-          });
+          return this.setState((state) => ({
+            formError: {
+              ...state.formError,
+              site: "Адрес сайта должен начинаться с https://",
+            },
+          }));
         }
-        this.setState({ site: value.trim(), siteError: "" });
+        this.setState((state) => ({
+          form: {
+            ...state.form,
+            site: value.trim(),
+          },
+          formError: {
+            ...state.formError,
+            site: "",
+          },
+        }));
         break;
       case "about":
       case "stack":
       case "description":
-        const textareaError = name + "Error";
         if (value && value.length >= 600) {
-          return this.setState({
-            [name]: value,
-            [textareaError]: "Превышен лимит символов в поле",
-          });
+          return this.setState((state) => ({
+            form: {
+              ...state.form,
+              [name]: value,
+            },
+            formError: {
+              ...state.formError,
+              [name]: "Превышен лимит символов в поле",
+            },
+          }));
         }
-        this.setState({ [name]: value, [textareaError]: "" });
+        this.setState((state) => ({
+          form: { ...state.form, [name]: value },
+          formError: { ...state.formError, [name]: "" },
+        }));
         break;
     }
   };
 
   onSubmit(event) {
     event.preventDefault();
-    if (this.state.username === "") {
-      this.setState({
-        usernameError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
-    if (this.state.surname === "") {
-      this.setState({
-        surnameError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
-    if (this.state.date === "") {
-      this.setState({
-        dateError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
-    if (this.state.phone === "") {
-      this.setState({
-        phoneError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
-    if (this.state.site === "") {
-      this.setState({
-        siteError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
-    if (this.state.about.trim() === "") {
-      this.setState({
-        aboutError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
-    if (this.state.stack.trim() === "") {
-      this.setState({
-        stackError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
-    if (this.state.description.trim() === "") {
-      this.setState({
-        descriptionError: "Поле пустое. Заполните, пожалуйста",
-      });
-    }
+    const fields = Object.entries(this.state.form);
+    fields.forEach(([key, value]) => {
+      if (value === "") {
+        this.setState((state) => ({
+          formError: {
+            ...state.formError,
+            [key]: "Поле пустое. Заполните, пожалуйста",
+          },
+        }));
+      }
+    });
     if (
-      this.state.username.trim() === "" ||
-      this.state.surname.trim() === "" ||
-      this.state.date === "" ||
-      this.state.phone.trim() === "" ||
-      this.state.site.trim() === "" ||
-      this.state.about.trim() === "" ||
-      this.state.stack.trim() === "" ||
-      this.state.description.trim() === "" ||
-      this.state.usernameError ||
-      this.state.surnameError ||
-      this.state.dateError ||
-      this.state.phoneError ||
-      this.state.siteError ||
-      this.state.aboutError ||
-      this.state.stackError ||
-      this.state.descriptionError
+      !Object.values(this.state.form).some(Boolean) ||
+      Object.values(this.state.formError).some(Boolean)
     )
       return;
     this.showModal();
   }
 
   onReset() {
-    this.setState({
-      username: "",
-      surname: "",
-      date: "",
-      site: "",
-      phone: "",
-      usernameError: "",
-      surnameError: "",
-      dateError: "",
-      siteError: "",
-      phoneError: "",
-      textareaAbout: "",
-      textareaAboutError: "",
-      about: "",
-      aboutError: "",
-      stack: "",
-      stackError: "",
-      description: "",
-      descriptionError: "",
-    });
+    const keys = Object.keys(this.state.form);
+    const form = keys.reduce((acc, key) => {
+      acc = { ...acc, [key]: "" };
+      return acc;
+    }, {});
+    const formError = { ...form };
+    this.setState(() => ({ form, formError }));
   }
 
   showModal = () => {
@@ -214,70 +202,70 @@ class Form extends Component {
         placeholder: "Введите Ваше имя",
         name: "username",
         type: "text",
-        value: this.state.username,
+        value: this.state.form.username,
         onChange: this.onChange,
-        error: this.state.usernameError,
+        error: this.state.formError.username,
       },
       {
         label: "Фамилия",
         placeholder: "Введите Вашу фамилию",
         name: "surname",
         type: "text",
-        value: this.state.surname,
+        value: this.state.form.surname,
         onChange: this.onChange,
-        error: this.state.surnameError,
+        error: this.state.formError.surname,
       },
       {
         label: "Дата рождения",
         placeholder: "Введите Вашу дату рождения",
         name: "date",
         type: "date",
-        value: this.state.date,
+        value: this.state.form.date,
         onChange: this.onChange,
-        error: this.state.dateError,
+        error: this.state.formError.date,
       },
       {
         label: "Телефон",
         placeholder: "Введите Ваш номер телефона",
         name: "phone",
         type: "text",
-        value: this.state.phone,
+        value: this.state.form.phone,
         onChange: this.onChange,
-        error: this.state.phoneError,
+        error: this.state.formError.phone,
       },
       {
         label: "Сайт",
         placeholder: "Введите адрес Вашего сайта",
         name: "site",
         type: "text",
-        value: this.state.site,
+        value: this.state.form.site,
         onChange: this.onChange,
-        error: this.state.siteError,
+        error: this.state.formError.site,
       },
     ];
     const textareas = [
       {
         label: "О себе",
         placeholder: "Введите информацию о себе",
-        value: this.state.about,
+        value: this.state.form.about,
         onChange: this.onChange,
-        error: this.state.aboutError,
+        error: this.state.formError.about,
         name: "about",
       },
       {
         label: "Стек технологий",
         placeholder: "Введите Ваш стек технологий",
-        value: this.state.stack,
+        value: this.state.form.stack,
         onChange: this.onChange,
-        error: this.state.stackError,
+        error: this.state.formError.stack,
         name: "stack",
       },
       {
         label: "Описание последнего проекта",
         placeholder: "Опишите Ваш последний проект",
-        value: this.state.description,
+        value: this.state.form.description,
         onChange: this.onChange,
-        error: this.state.descriptionError,
+        error: this.state.formError.description,
         name: "description",
       },
     ];
