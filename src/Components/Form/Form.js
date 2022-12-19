@@ -156,10 +156,12 @@ class Form extends Component {
   };
 
   onSubmit(event) {
+    let formValid = true;
     event.preventDefault();
     const fields = Object.entries(this.state.form);
     fields.forEach(([key, value]) => {
-      if (value === "") {
+      if (value.trim() === "") {
+        formValid = false;
         this.setState((state) => ({
           formError: {
             ...state.formError,
@@ -169,10 +171,12 @@ class Form extends Component {
       }
     });
     if (
-      !Object.values(this.state.form).some(Boolean) ||
-      Object.values(this.state.formError).some(Boolean)
-    )
+      !Object.values(this.state.form).every(Boolean) ||
+      Object.values(this.state.formError).some(Boolean) ||
+      !formValid
+    ) {
       return;
+    }
     this.showModal();
   }
 
