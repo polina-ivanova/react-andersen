@@ -4,6 +4,7 @@ import Textarea from "../Textarea/Textarea";
 import styles from "./Form.module.css";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
+import { TEXTAREA_LENGTH } from "../../constants";
 
 class Form extends Component {
   constructor(props) {
@@ -135,7 +136,7 @@ class Form extends Component {
       case "about":
       case "stack":
       case "description":
-        if (value && value.length >= 600) {
+        if (value && value.length >= TEXTAREA_LENGTH) {
           return this.setState((state) => ({
             form: {
               ...state.form,

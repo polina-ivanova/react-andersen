@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./Textarea.module.css";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import { TEXTAREA_LENGTH } from "../../constants";
 
 class Textarea extends Component {
   render() {
@@ -9,7 +10,9 @@ class Textarea extends Component {
         <div className={styles.title}>
           <div>{this.props.label}</div>
           <div className={styles.counter}>
-            {this.props.value?.length > 600 ? 0 : 600 - this.props.value.length}
+            {this.props.value?.length > TEXTAREA_LENGTH
+              ? 0
+              : TEXTAREA_LENGTH - this.props.value.length}
             /600
           </div>
         </div>
