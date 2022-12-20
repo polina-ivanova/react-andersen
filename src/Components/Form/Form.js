@@ -21,67 +21,69 @@ export default function Form() {
   const [formError, setFormError] = useState(FORM_INITIAL_STATE);
   const [modal, setModal] = useState(false);
 
-  const onChange = (event) => {
+  const onChangeName = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-    switch (name) {
-      case "username":
-      case "surname":
-        const isUppercase = value.trim()[0]?.toUpperCase() !== value.trim()[0];
-        if (value && isUppercase) {
-          setFormError((state) => ({
-            ...state,
-            [name]: name === "username" ? NAME_ERROR : SURNAME_ERROR,
-          }));
-        } else {
-          setFormError((state) => ({ ...state, [name]: "" }));
-        }
-        setForm((state) => ({ ...state, [name]: value }));
-        break;
-      case "date":
-        if (value.length > 0) {
-          setFormError({ ...formError, date: "" });
-        }
-        setForm({ ...form, date: value });
-        break;
-      case "phone":
-        if (/[a-zа-яё]/i.test(value[0])) {
-          setForm({ ...form, phone: "" });
-          setFormError({ ...formError, phone: PHONE_ERROR });
-        } else {
-          const phone = value
-            .replace(/[^\d]/g, "")
-            .match(/(\d)(\d{0,4})(\d{0,2})(\d{0,2})/);
-          let formatted;
-          if (Array.isArray(phone)) {
-            formatted = phone
-              .slice(1, 5)
-              .filter((item) => !!item)
-              .join("-");
-          }
-          setForm({ ...form, phone: formatted });
-          setFormError({ ...formError, phone: "" });
-        }
-        break;
-      case "site":
-        if (HTTP.startsWith(value) || HTTP.length < value.length) {
-          setFormError({ ...formError, site: "" });
-          setForm({ ...form, site: value.trim() });
-        } else {
-          setFormError({ ...formError, site: SITE_ERROR });
-          setForm({ ...form, site: value });
-        }
-        break;
-      case "about":
-      case "stack":
-      case "description":
-        setForm((state) => ({ ...state, [name]: value }));
-        if (value && value.length >= TEXTAREA_LENGTH) {
-          setFormError((state) => ({ ...state, [name]: TEXTAREA_ERROR }));
-        } else {
-          setFormError((state) => ({ ...state, [name]: "" }));
-        }
-        break;
+    const isUppercase = value.trim()[0]?.toUpperCase() !== value.trim()[0];
+    if (value && isUppercase) {
+      setFormError((state) => ({
+        ...state,
+        [name]: name === "username" ? NAME_ERROR : SURNAME_ERROR,
+      }));
+    } else {
+      setFormError((state) => ({ ...state, [name]: "" }));
+    }
+    setForm((state) => ({ ...state, [name]: value }));
+  };
+
+  const onChangeDate = (event) => {
+    const value = event.target.value;
+    if (value.length > 0) {
+      setFormError({ ...formError, date: "" });
+    }
+    setForm({ ...form, date: value });
+  };
+
+  const onChangePhone = (event) => {
+    const value = event.target.value;
+    if (/[a-zа-яё]/i.test(value[0])) {
+      setForm({ ...form, phone: "" });
+      setFormError({ ...formError, phone: PHONE_ERROR });
+    } else {
+      const phone = value
+        .replace(/[^\d]/g, "")
+        .match(/(\d)(\d{0,4})(\d{0,2})(\d{0,2})/);
+      let formatted;
+      if (Array.isArray(phone)) {
+        formatted = phone
+          .slice(1, 5)
+          .filter((item) => !!item)
+          .join("-");
+      }
+      setForm({ ...form, phone: formatted });
+      setFormError({ ...formError, phone: "" });
+    }
+  };
+
+  const onChangeSite = (event) => {
+    const value = event.target.value;
+    if (HTTP.startsWith(value) || HTTP.length < value.length) {
+      setFormError({ ...formError, site: "" });
+      setForm({ ...form, site: value.trim() });
+    } else {
+      setFormError({ ...formError, site: SITE_ERROR });
+      setForm({ ...form, site: value });
+    }
+  };
+
+  const onChangeTextarea = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setForm((state) => ({ ...state, [name]: value }));
+    if (value && value.length >= TEXTAREA_LENGTH) {
+      setFormError((state) => ({ ...state, [name]: TEXTAREA_ERROR }));
+    } else {
+      setFormError((state) => ({ ...state, [name]: "" }));
     }
   };
 
@@ -129,7 +131,7 @@ export default function Form() {
       name: "username",
       type: "text",
       value: form.username,
-      onChange: onChange,
+      onChange: onChangeName,
       error: formError.username,
     },
     {
@@ -138,7 +140,7 @@ export default function Form() {
       name: "surname",
       type: "text",
       value: form.surname,
-      onChange: onChange,
+      onChange: onChangeName,
       error: formError.surname,
     },
     {
@@ -147,7 +149,7 @@ export default function Form() {
       name: "date",
       type: "date",
       value: form.date,
-      onChange: onChange,
+      onChange: onChangeDate,
       error: formError.date,
     },
     {
@@ -156,7 +158,7 @@ export default function Form() {
       name: "phone",
       type: "text",
       value: form.phone,
-      onChange: onChange,
+      onChange: onChangePhone,
       error: formError.phone,
     },
     {
@@ -165,7 +167,7 @@ export default function Form() {
       name: "site",
       type: "text",
       value: form.site,
-      onChange: onChange,
+      onChange: onChangeSite,
       error: formError.site,
     },
   ];
@@ -174,7 +176,7 @@ export default function Form() {
       label: "О себе",
       placeholder: "Введите информацию о себе",
       value: form.about,
-      onChange: onChange,
+      onChange: onChangeTextarea,
       error: formError.about,
       name: "about",
     },
@@ -182,7 +184,7 @@ export default function Form() {
       label: "Стек технологий",
       placeholder: "Введите Ваш стек технологий",
       value: form.stack,
-      onChange: onChange,
+      onChange: onChangeTextarea,
       error: formError.stack,
       name: "stack",
     },
@@ -190,7 +192,7 @@ export default function Form() {
       label: "Описание последнего проекта",
       placeholder: "Опишите Ваш последний проект",
       value: form.description,
-      onChange: onChange,
+      onChange: onChangeTextarea,
       error: formError.description,
       name: "description",
     },
