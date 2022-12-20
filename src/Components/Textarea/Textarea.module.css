@@ -1,0 +1,21 @@
+.label {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25rem;
+    width: 100%;
+}
+
+.textarea {
+    font-family: Raleway, serif;
+    height: 7rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    resize: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .label {
+        margin: 1rem 0;
+    }
+}
