@@ -6,7 +6,6 @@ export default function Input(props) {
   return (
     <label className={styles.label}>
       {props.label}
-      <br />
       <input
         className={styles.input}
         placeholder={props.placeholder}
