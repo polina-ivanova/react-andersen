@@ -7,7 +7,6 @@ class Input extends Component {
     return (
       <label className={styles.label}>
         {this.props.label}
-        <br />
         <input
           className={styles.input}
           placeholder={this.props.placeholder}
