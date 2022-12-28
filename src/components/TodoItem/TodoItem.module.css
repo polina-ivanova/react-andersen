@@ -7,7 +7,7 @@
     height: 3rem;
 }
 
-.edit {
+.editTask {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,7 +15,7 @@
     height: 3rem;
 }
 
-.buttons {
+.actions {
     display: flex;
 }
 

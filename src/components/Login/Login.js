@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
+import { ENTER_NAME } from "../../constants";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function Login() {
 
   return (
     <div className={styles.form}>
-      <Input placeholder={"Enter your name"} value={name} onChange={setName} />
+      <Input placeholder={ENTER_NAME} value={name} onChange={setName} />
       <Button
         name={"Sign in"}
         type={"submit"}

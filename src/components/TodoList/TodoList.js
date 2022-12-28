@@ -6,6 +6,7 @@ import Input from "../Input/Input";
 import Button from "../Button/Button";
 import styles from "./TodoList.module.css";
 import TodoItem from "../TodoItem/TodoItem";
+import { ADD_TASK } from "../../constants";
 
 export default function TodoList() {
   const name = useSelector(nameSelector);
@@ -18,6 +19,8 @@ export default function TodoList() {
 
   const [active, setActive] = useState(0);
 
+  const { todo, header, info, username, counter, form } = styles;
+
   const addNewTodo = () => {
     if (task.trim().length !== 0) {
       const action = addTodo(task);
@@ -27,11 +30,11 @@ export default function TodoList() {
   };
 
   return (
-    <div className={styles.todo}>
-      <div className={styles.header}>
-        <div className={styles.info}>
-          <div className={styles.name}>Hi, {name}</div>
-          <div className={styles.counter}>
+    <div className={todo}>
+      <div className={header}>
+        <div className={info}>
+          <div className={username}>Hi, {name}</div>
+          <div className={counter}>
             You have {todos.filter((todo) => todo.isCompleted === false).length}{" "}
             active tasks
           </div>
@@ -42,8 +45,8 @@ export default function TodoList() {
           <Button name={"Completed"} onClick={() => setActive(2)} />
         </div>
       </div>
-      <div className={styles.form}>
-        <Input placeholder={"Add new task"} value={task} onChange={setTask} />
+      <div className={form}>
+        <Input placeholder={ADD_TASK} value={task} onChange={setTask} />
         <Button name={"Add"} onClick={addNewTodo} />
       </div>
       <div>

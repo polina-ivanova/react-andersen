@@ -8,49 +8,49 @@ import { BsCheckSquare, BsPen, BsTrash, BsXSquare } from "react-icons/bs";
 export default function TodoItem({ todo }) {
   const dispatch = useDispatch();
 
+  const { id, title, isCompleted } = todo;
+  const { task, editTask, actions, buttonIcon } = styles;
+
   const [edit, setEdit] = useState(false);
-  const [title, setTitle] = useState(todo.title);
+  const [titleValue, setTitleValue] = useState(title);
 
   const toggleTodoTask = () => {
-    const action = toggleTodo(todo.id);
+    const action = toggleTodo(id);
     dispatch(action);
   };
 
   const deleteTodoTask = () => {
-    const action = deleteTodo(todo.id);
+    const action = deleteTodo(id);
     dispatch(action);
   };
 
   const editTodoTask = () => {
-    const editedTodo = { ...todo, title };
+    const editedTodo = { ...todo, title: titleValue };
     const action = editTodo(editedTodo);
     dispatch(action);
     setEdit(false);
   };
 
   return (
-    <div className={styles.task}>
+    <div className={task}>
       <div>
         {edit ? (
-          <div className={styles.edit}>
+          <div className={editTask}>
             {" "}
-            <Input value={title} onChange={setTitle} />
-            <div className={styles.buttons}>
-              <BsCheckSquare
-                onClick={editTodoTask}
-                className={styles.buttonIcon}
-              />
+            <Input value={titleValue} onChange={setTitleValue} />
+            <div className={actions}>
+              <BsCheckSquare onClick={editTodoTask} className={buttonIcon} />
               <BsXSquare
                 onClick={() => setEdit(false)}
-                className={styles.buttonIcon}
+                className={buttonIcon}
               />
             </div>
           </div>
         ) : (
           <div
-            onClick={() => toggleTodoTask(todo.id)}
+            onClick={() => toggleTodoTask(id)}
             style={{
-              textDecoration: todo.isCompleted ? "line-through" : "none",
+              textDecoration: isCompleted ? "line-through" : "none",
             }}
           >
             {todo.title}
@@ -59,14 +59,11 @@ export default function TodoItem({ todo }) {
       </div>
       <div>
         {edit ? null : (
-          <div className={styles.buttons}>
-            <BsPen
-              className={styles.buttonIcon}
-              onClick={() => setEdit(true)}
-            />
+          <div className={actions}>
+            <BsPen className={buttonIcon} onClick={() => setEdit(true)} />
             <BsTrash
-              className={styles.buttonIcon}
-              onClick={() => deleteTodoTask(todo.id)}
+              className={buttonIcon}
+              onClick={() => deleteTodoTask(id)}
             />
           </div>
         )}
