@@ -1,0 +1,11 @@
+.form {
+    margin: 4rem auto;
+    width: 25%;
+    display: flex;
+    background-color: white;
+    padding: 2rem;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+}
+

@@ -1,0 +1,42 @@
+.todo {
+    margin: 4rem auto;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-sizing: border-box;
+    align-items: center;
+    min-height: 10rem;
+    padding-bottom: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #a6e8f3;
+    margin-bottom: 1rem;
+    padding: 0 0 0 1rem;
+    box-sizing: border-box
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.name,
+.counter {
+    height: 1.8rem;
+    line-height: 1.8rem;
+    background-color: #a6e8f3;
+    font-size: 1.25rem;
+    transition: 0.5s;
+    border: 0;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
