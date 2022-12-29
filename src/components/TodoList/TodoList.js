@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { nameSelector, todoSelector } from "../../redux/selectors/selectors";
 import { addTodo } from "../../redux/actions";
@@ -10,16 +10,15 @@ import { ADD_TASK } from "../../constants";
 
 export default function TodoList() {
   const name = useSelector(nameSelector);
-
   const dispatch = useDispatch();
-
   const todos = useSelector(todoSelector);
-
   const [task, setTask] = useState("");
-
   const [active, setActive] = useState(0);
-
   const { todo, header, info, username, counter, form } = styles;
+  const activeTasksCount = useMemo(
+    () => todos.filter((todo) => todo.isCompleted === false).length,
+    [todos]
+  );
 
   const addNewTodo = () => {
     if (task.trim().length !== 0) {
@@ -35,8 +34,7 @@ export default function TodoList() {
         <div className={info}>
           <div className={username}>Hi, {name}</div>
           <div className={counter}>
-            You have {todos.filter((todo) => todo.isCompleted === false).length}{" "}
-            active tasks
+            You have {activeTasksCount} active tasks
           </div>
         </div>
         <div>

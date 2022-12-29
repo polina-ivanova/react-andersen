@@ -36,7 +36,6 @@ export default function TodoItem({ todo }) {
       <div>
         {edit ? (
           <div className={editTask}>
-            {" "}
             <Input value={titleValue} onChange={setTitleValue} />
             <div className={actions}>
               <BsCheckSquare onClick={editTodoTask} className={buttonIcon} />
