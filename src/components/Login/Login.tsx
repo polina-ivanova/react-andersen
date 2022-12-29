@@ -13,7 +13,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const [name, setName] = useState<string>("");
 
-  const signIn = () => {
+  const signIn = (): void => {
     const action = login(name);
     dispatch(action);
     navigate("/todo");
@@ -23,7 +23,6 @@ export default function Login() {
     <div className={styles.form}>
       <Input placeholder={ENTER_NAME} value={name} onChange={setName} />
       <Link to={"/todo"}>
-        {" "}
         <Button name={"Sign in"} type={"submit"} onClick={signIn} />
       </Link>
     </div>

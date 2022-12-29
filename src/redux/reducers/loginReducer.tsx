@@ -1,10 +1,7 @@
+import { Action } from "../../types";
+
 interface InitialState {
   name: string;
-}
-
-interface Action {
-  type: string;
-  payload: any;
 }
 
 const initialState: InitialState = { name: "" };

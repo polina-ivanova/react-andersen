@@ -11,7 +11,7 @@ interface ButtonProps {
 export default function Button(props: ButtonProps) {
   return (
     <button
-      className={props.className + " " + styles.button}
+      className={`${props.className || ""} ${styles.button}`}
       name={props.name}
       type={props.type || "button"}
       onClick={props.onClick}

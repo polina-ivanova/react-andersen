@@ -1,16 +1,7 @@
-export interface Todo {
-  id: number;
-  title: string;
-  isCompleted: boolean;
-}
+import { Action, Todos } from "../../types";
 
 interface InitialState {
-  todos: Array<Todo>;
-}
-
-interface Action {
-  type: string;
-  payload: any;
+  todos: Todos;
 }
 
 const initialState: InitialState = { todos: [] };

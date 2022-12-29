@@ -1,7 +1,4 @@
-interface Action {
-  type: string;
-  payload: any;
-}
+import { Action, Todo } from "../types";
 
 export const login = (name: string): Action => {
   return { type: "LOGIN", payload: name };
@@ -28,7 +25,7 @@ export const deleteTodo = (id: number): Action => ({
   payload: { id },
 });
 
-export const editTodo = (todo: string): Action => ({
+export const editTodo = (todo: Todo): Action => ({
   type: "EDIT_TODO",
   payload: todo,
 });

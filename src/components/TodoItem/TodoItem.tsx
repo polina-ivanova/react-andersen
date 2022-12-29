@@ -4,16 +4,17 @@ import { deleteTodo, editTodo, toggleTodo } from "../../redux/actions";
 import styles from "./TodoItem.module.css";
 import Input from "../Input/Input";
 import { BsCheckSquare, BsPen, BsTrash, BsXSquare } from "react-icons/bs";
-import { Todo } from "../../redux/reducers/todoReducer";
 import { CHANGE_TASK } from "../../constants";
+import { Todo } from "../../types";
 
-export default function TodoItem({ todo }) {
+interface TodoItemProps {
+  todo: Todo;
+}
+
+export default function TodoItem({ todo }: TodoItemProps) {
   const dispatch = useDispatch();
-
-  const { id, title, isCompleted }: Todo = todo;
-
+  const { id, title, isCompleted } = todo;
   const { task, editTask, actions, buttonIcon } = styles;
-
   const [edit, setEdit] = useState<boolean>(false);
   const [titleValue, setTitleValue] = useState<string>(title);
 
@@ -39,7 +40,6 @@ export default function TodoItem({ todo }) {
       <div>
         {edit ? (
           <div className={editTask}>
-            {" "}
             <Input
               value={titleValue}
               onChange={setTitleValue}

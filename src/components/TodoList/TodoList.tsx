@@ -7,31 +7,42 @@ import Button from "../Button/Button";
 import TodoItem from "../TodoItem/TodoItem";
 import { ADD_TASK } from "../../constants";
 import styles from "./TodoList.module.css";
+import { Todos } from "../../types";
 
 export default function TodoList() {
   const name = useSelector(nameSelector);
-
   const dispatch = useDispatch();
-
   const todos = useSelector(todoSelector);
-
   const [task, setTask] = useState<string>("");
-
   const [active, setActive] = useState<number>(0);
-
   const { todo, header, info, username, counter, form } = styles;
 
-  const activeTasksCount = useMemo(
+  const activeTasksCount: number = useMemo(
     () => todos.filter((todo) => todo.isCompleted === false).length,
     [todos]
   );
 
-  const addNewTodo = () => {
+  const addNewTodo = (): void => {
     if (task.trim().length !== 0) {
       const action = addTodo(task);
       dispatch(action);
       setTask("");
     }
+  };
+
+  const filterTodos = (todos: Todos): Todos => {
+    return todos.filter((todo) => {
+      switch (active) {
+        case 0:
+          return true;
+        case 1:
+          return !todo.isCompleted;
+        case 2:
+          return todo.isCompleted;
+        default:
+          return true;
+      }
+    });
   };
 
   return (
@@ -62,22 +73,9 @@ export default function TodoList() {
         <Button name={"Add"} onClick={addNewTodo} />
       </div>
       <div>
-        {todos
-          .filter((todo) => {
-            switch (active) {
-              case 0:
-                return true;
-              case 1:
-                return !todo.isCompleted;
-              case 2:
-                return todo.isCompleted;
-              default:
-                return true;
-            }
-          })
-          .map((todo) => (
-            <TodoItem todo={todo} key={todo.id} />
-          ))}
+        {filterTodos(todos).map((todo) => (
+          <TodoItem todo={todo} key={todo.id} />
+        ))}
       </div>
     </div>
   );
