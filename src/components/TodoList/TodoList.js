@@ -28,6 +28,21 @@ export default function TodoList() {
     }
   };
 
+  const filterTodos = (todos) => {
+    return todos.filter((todo) => {
+      switch (active) {
+        case 0:
+          return true;
+        case 1:
+          return !todo.isCompleted;
+        case 2:
+          return todo.isCompleted;
+        default:
+          return true;
+      }
+    });
+  };
+
   return (
     <div className={todo}>
       <div className={header}>
@@ -48,22 +63,9 @@ export default function TodoList() {
         <Button name={"Add"} onClick={addNewTodo} />
       </div>
       <div>
-        {todos
-          .filter((todo) => {
-            switch (active) {
-              case 0:
-                return true;
-              case 1:
-                return !todo.isCompleted;
-              case 2:
-                return todo.isCompleted;
-              default:
-                return true;
-            }
-          })
-          .map((todo) => (
-            <TodoItem todo={todo} key={todo.id} />
-          ))}
+        {filterTodos(todos).map((todo) => (
+          <TodoItem todo={todo} key={todo.id} />
+        ))}
       </div>
     </div>
   );
