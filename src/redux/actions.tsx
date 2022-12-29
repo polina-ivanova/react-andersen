@@ -1,8 +1,13 @@
-export const login = (name) => {
+interface Action {
+  type: string;
+  payload: any;
+}
+
+export const login = (name: string): Action => {
   return { type: "LOGIN", payload: name };
 };
 
-export const addTodo = (title) => {
+export const addTodo = (title: string): Action => {
   return {
     type: "ADD",
     payload: {
@@ -13,17 +18,17 @@ export const addTodo = (title) => {
   };
 };
 
-export const toggleTodo = (id) => ({
+export const toggleTodo = (id: number): Action => ({
   type: "TOGGLE_TODO_STATE",
   payload: { id },
 });
 
-export const deleteTodo = (id) => ({
+export const deleteTodo = (id: number): Action => ({
   type: "DELETE_TODO",
   payload: { id },
 });
 
-export const editTodo = (todo) => ({
+export const editTodo = (todo: string): Action => ({
   type: "EDIT_TODO",
   payload: todo,
 });

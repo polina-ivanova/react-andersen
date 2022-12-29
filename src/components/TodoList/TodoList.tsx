@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { nameSelector, todoSelector } from "../../redux/selectors/selectors";
 import { addTodo } from "../../redux/actions";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
-import styles from "./TodoList.module.css";
 import TodoItem from "../TodoItem/TodoItem";
 import { ADD_TASK } from "../../constants";
+import styles from "./TodoList.module.css";
 
 export default function TodoList() {
   const name = useSelector(nameSelector);
@@ -15,11 +15,16 @@ export default function TodoList() {
 
   const todos = useSelector(todoSelector);
 
-  const [task, setTask] = useState("");
+  const [task, setTask] = useState<string>("");
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState<number>(0);
 
   const { todo, header, info, username, counter, form } = styles;
+
+  const activeTasksCount = useMemo(
+    () => todos.filter((todo) => todo.isCompleted === false).length,
+    [todos]
+  );
 
   const addNewTodo = () => {
     if (task.trim().length !== 0) {
@@ -35,14 +40,21 @@ export default function TodoList() {
         <div className={info}>
           <div className={username}>Hi, {name}</div>
           <div className={counter}>
-            You have {todos.filter((todo) => todo.isCompleted === false).length}{" "}
-            active tasks
+            You have {activeTasksCount} active tasks
           </div>
         </div>
         <div>
           <Button name={"All"} onClick={() => setActive(0)} />
-          <Button name={"Active"} onClick={() => setActive(1)} />
-          <Button name={"Completed"} onClick={() => setActive(2)} />
+          <Button
+            name={"Active"}
+            onClick={() => setActive(1)}
+            type={"button"}
+          />
+          <Button
+            name={"Completed"}
+            onClick={() => setActive(2)}
+            type={"button"}
+          />
         </div>
       </div>
       <div className={form}>

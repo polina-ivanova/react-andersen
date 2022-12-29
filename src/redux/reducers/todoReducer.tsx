@@ -1,6 +1,21 @@
-const initialState = { todos: [] };
+export interface Todo {
+  id: number;
+  title: string;
+  isCompleted: boolean;
+}
 
-export const todoReducer = (state = initialState, action) => {
+interface InitialState {
+  todos: Array<Todo>;
+}
+
+interface Action {
+  type: string;
+  payload: any;
+}
+
+const initialState: InitialState = { todos: [] };
+
+export const todoReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case "ADD":
       return { todos: [...state.todos, action.payload] };

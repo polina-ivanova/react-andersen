@@ -1,7 +1,14 @@
 import React from "react";
 import styles from "../Input/Input.module.css";
 
-export default function Input(props) {
+interface InputProps {
+  className?: string;
+  placeholder: string;
+  value: string;
+  onChange: (string) => void;
+}
+
+export default function Input(props: InputProps) {
   return (
     <input
       className={styles.input}

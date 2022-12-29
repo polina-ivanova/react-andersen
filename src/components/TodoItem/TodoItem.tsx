@@ -4,27 +4,30 @@ import { deleteTodo, editTodo, toggleTodo } from "../../redux/actions";
 import styles from "./TodoItem.module.css";
 import Input from "../Input/Input";
 import { BsCheckSquare, BsPen, BsTrash, BsXSquare } from "react-icons/bs";
+import { Todo } from "../../redux/reducers/todoReducer";
+import { CHANGE_TASK } from "../../constants";
 
 export default function TodoItem({ todo }) {
   const dispatch = useDispatch();
 
-  const { id, title, isCompleted } = todo;
+  const { id, title, isCompleted }: Todo = todo;
+
   const { task, editTask, actions, buttonIcon } = styles;
 
-  const [edit, setEdit] = useState(false);
-  const [titleValue, setTitleValue] = useState(title);
+  const [edit, setEdit] = useState<boolean>(false);
+  const [titleValue, setTitleValue] = useState<string>(title);
 
-  const toggleTodoTask = () => {
+  const toggleTodoTask = (): void => {
     const action = toggleTodo(id);
     dispatch(action);
   };
 
-  const deleteTodoTask = () => {
+  const deleteTodoTask = (): void => {
     const action = deleteTodo(id);
     dispatch(action);
   };
 
-  const editTodoTask = () => {
+  const editTodoTask = (): void => {
     const editedTodo = { ...todo, title: titleValue };
     const action = editTodo(editedTodo);
     dispatch(action);
@@ -37,7 +40,11 @@ export default function TodoItem({ todo }) {
         {edit ? (
           <div className={editTask}>
             {" "}
-            <Input value={titleValue} onChange={setTitleValue} />
+            <Input
+              value={titleValue}
+              onChange={setTitleValue}
+              placeholder={CHANGE_TASK}
+            />
             <div className={actions}>
               <BsCheckSquare onClick={editTodoTask} className={buttonIcon} />
               <BsXSquare
@@ -48,7 +55,7 @@ export default function TodoItem({ todo }) {
           </div>
         ) : (
           <div
-            onClick={() => toggleTodoTask(id)}
+            onClick={toggleTodoTask}
             style={{
               textDecoration: isCompleted ? "line-through" : "none",
             }}
@@ -61,10 +68,7 @@ export default function TodoItem({ todo }) {
         {edit ? null : (
           <div className={actions}>
             <BsPen className={buttonIcon} onClick={() => setEdit(true)} />
-            <BsTrash
-              className={buttonIcon}
-              onClick={() => deleteTodoTask(id)}
-            />
+            <BsTrash className={buttonIcon} onClick={deleteTodoTask} />
           </div>
         )}
       </div>
