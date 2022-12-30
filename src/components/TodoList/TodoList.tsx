@@ -55,22 +55,22 @@ export default function TodoList() {
           </div>
         </div>
         <div>
-          <Button name={"All"} onClick={() => setActive(0)} />
-          <Button
-            name={"Active"}
-            onClick={() => setActive(1)}
-            type={"button"}
-          />
-          <Button
-            name={"Completed"}
-            onClick={() => setActive(2)}
-            type={"button"}
-          />
+          <Button name={"All"} onClick={() => setActive(0)}>
+            All
+          </Button>
+          <Button name={"Active"} onClick={() => setActive(1)}>
+            Active
+          </Button>
+          <Button name={"Completed"} onClick={() => setActive(2)}>
+            Completed
+          </Button>
         </div>
       </div>
       <div className={form}>
         <Input placeholder={ADD_TASK} value={task} onChange={setTask} />
-        <Button name={"Add"} onClick={addNewTodo} />
+        <Button name={"Add"} onClick={addNewTodo}>
+          Add
+        </Button>
       </div>
       <div>
         {filterTodos(todos).map((todo) => (

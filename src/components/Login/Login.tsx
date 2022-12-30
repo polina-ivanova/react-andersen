@@ -23,7 +23,9 @@ export default function Login() {
     <div className={styles.form}>
       <Input placeholder={ENTER_NAME} value={name} onChange={setName} />
       <Link to={"/todo"}>
-        <Button name={"Sign in"} type={"submit"} onClick={signIn} />
+        <Button name={"Sign in"} type={"submit"} onClick={signIn}>
+          Sign in
+        </Button>
       </Link>
     </div>
   );
